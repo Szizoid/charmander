@@ -1,5 +1,6 @@
 mod config;
 mod history;
+mod output;
 mod search;
 
 fn main() {

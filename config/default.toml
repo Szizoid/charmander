@@ -1,0 +1,13 @@
+[settings]
+output-method = "wtype"
+max-results = 50
+
+[[characters]]
+symbol = "→"
+name = "right arrow"
+tags = ["arrow", "right", "math"]
+
+[[characters]]
+symbol = "α"
+name = "alpha"
+tags = ["a", "greek", "math"]

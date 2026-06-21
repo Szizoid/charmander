@@ -1,5 +1,6 @@
 mod config;
 mod history;
+mod search;
 
 fn main() {
     let path = std::path::PathBuf::from("config/default.toml");

@@ -9,7 +9,7 @@
 [![Built with Rust](https://img.shields.io/badge/built%20with-Rust-orange?logo=rust)](https://www.rust-lang.org/)
 [![Wayland](https://img.shields.io/badge/Wayland-only-blue?logo=wayland)](https://wayland.freedesktop.org/)
 [![GTK4](https://img.shields.io/badge/GTK-4-green?logo=gnome)](https://gtk.org/)
-[![License: MIT](https://img.shields.io/badge/license-MIT-lightgrey)](LICENSE)
+[![License: GPL v3](https://img.shields.io/badge/license-GPLv3-blue)](LICENSE)
 
 <!-- Add a GIF/screenshot here once available -->
 <!-- ![Charmander demo](assets/demo.gif) -->
@@ -259,4 +259,4 @@ Please open an issue before submitting a large PR so we can discuss the approach
 
 ## License
 
-MIT — see [LICENSE](LICENSE) for details.
+GPL-3.0 — see [LICENSE](LICENSE) for details.

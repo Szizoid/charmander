@@ -1,13 +1,368 @@
+# Charmander — конфигурация
+#
+# Этот файл создаётся автоматически при первом запуске.
+# Вы можете редактировать его вручную — изменения вступят в силу при следующем запуске.
+# Расположение: ~/.config/charmander/config.toml
+
 [settings]
-output-method = "wtype"
-max-results = 50
+
+# Максимальное количество символов в списке результатов.
+# 0 — показывать все совпадения без ограничений.
+max-results = 0
+
+# Символ, который отображается слева от выбранной строки при навигации стрелками.
+# Важно: длина selection-indicator и no-selection-indicator должна совпадать
+# (по количеству символов), иначе текст будет смещаться при навигации.
+#
+# Примеры:
+#   selection-indicator = "> "   # классическая стрелка
+#   selection-indicator = "» "   # двойная стрелка
+#   selection-indicator = "● "   # точка
+selection-indicator = "> "
+
+# Символ, который отображается слева от невыбранных строк.
+# Обычно — пробелы той же ширины, что и selection-indicator.
+#
+# Примеры:
+#   no-selection-indicator = "  "   # два пробела (для "> ")
+#   no-selection-indicator = "○ "   # кружок (пара к "● ")
+no-selection-indicator = "  "
+
+
+# ─────────────────────────────────────────────
+# Библиотека символов
+# ─────────────────────────────────────────────
+#
+# Каждый символ описывается блоком [[characters]].
+# Добавляйте свои символы по тому же образцу.
+#
+# Поля:
+#   symbol  — сам символ (одиночный Unicode-символ или лигатура)
+#   name    — полное название на английском; используется в поиске
+#   tags    — список ключевых слов для поиска; чем больше — тем лучше
+#
+# Алгоритм поиска:
+#   Точное совпадение тега > тег начинается с запроса > тег содержит запрос > имя содержит запрос
+#   Среди равнозначных совпадений — символы, которые вы использовали чаще, показываются выше.
+
+# ── Стрелки ──────────────────────────────────
 
 [[characters]]
 symbol = "→"
 name = "right arrow"
-tags = ["arrow", "right", "math"]
+tags = ["arrow", "right", "->", "math"]
+
+[[characters]]
+symbol = "←"
+name = "left arrow"
+tags = ["arrow", "left", "math"]
+
+[[characters]]
+symbol = "↑"
+name = "up arrow"
+tags = ["arrow", "up", "math"]
+
+[[characters]]
+symbol = "↓"
+name = "down arrow"
+tags = ["arrow", "down", "math"]
+
+[[characters]]
+symbol = "↔"
+name = "left right arrow"
+tags = ["arrow", "bidirectional", "math"]
+
+[[characters]]
+symbol = "⇒"
+name = "double right arrow"
+tags = ["arrow", "right", "double", "implies", "math", "logic"]
+
+[[characters]]
+symbol = "⇐"
+name = "double left arrow"
+tags = ["arrow", "left", "double", "math", "logic"]
+
+[[characters]]
+symbol = "⇔"
+name = "double left right arrow"
+tags = ["arrow", "bidirectional", "double", "iff", "math", "logic"]
+
+# ── Математика ───────────────────────────────
+
+[[characters]]
+symbol = "≈"
+name = "approximately equal"
+tags = ["math", "approx", "approximately", "equal", "tilde"]
+
+[[characters]]
+symbol = "≠"
+name = "not equal"
+tags = ["math", "not", "equal", "!="]
+
+[[characters]]
+symbol = "≤"
+name = "less than or equal"
+tags = ["math", "less", "equal", "<="]
+
+[[characters]]
+symbol = "≥"
+name = "greater than or equal"
+tags = ["math", "greater", "equal", ">="]
+
+[[characters]]
+symbol = "±"
+name = "plus minus"
+tags = ["math", "plus", "minus", "plusminus"]
+
+[[characters]]
+symbol = "∞"
+name = "infinity"
+tags = ["math", "infinity", "inf"]
+
+[[characters]]
+symbol = "∑"
+name = "sum"
+tags = ["math", "sum", "sigma", "greek"]
+
+[[characters]]
+symbol = "∏"
+name = "product"
+tags = ["math", "product", "pi", "greek"]
+
+[[characters]]
+symbol = "√"
+name = "square root"
+tags = ["math", "root", "sqrt"]
+
+[[characters]]
+symbol = "∈"
+name = "element of"
+tags = ["math", "set", "in", "element"]
+
+[[characters]]
+symbol = "∉"
+name = "not element of"
+tags = ["math", "set", "not", "element"]
+
+[[characters]]
+symbol = "∅"
+name = "empty set"
+tags = ["math", "set", "empty"]
+
+[[characters]]
+symbol = "∩"
+name = "intersection"
+tags = ["math", "set", "intersection", "and"]
+
+[[characters]]
+symbol = "∪"
+name = "union"
+tags = ["math", "set", "union", "or"]
+
+[[characters]]
+symbol = "∂"
+name = "partial derivative"
+tags = ["math", "partial", "derivative", "calculus"]
+
+[[characters]]
+symbol = "∇"
+name = "nabla"
+tags = ["math", "nabla", "gradient", "del"]
+
+# ── Греческие буквы ──────────────────────────
 
 [[characters]]
 symbol = "α"
 name = "alpha"
-tags = ["a", "greek", "math"]
+tags = ["a", "greek", "math", "physics"]
+
+[[characters]]
+symbol = "β"
+name = "beta"
+tags = ["b", "greek", "math", "physics"]
+
+[[characters]]
+symbol = "γ"
+name = "gamma"
+tags = ["g", "greek", "math", "physics"]
+
+[[characters]]
+symbol = "δ"
+name = "delta"
+tags = ["d", "greek", "math", "physics"]
+
+[[characters]]
+symbol = "ε"
+name = "epsilon"
+tags = ["e", "greek", "math", "physics"]
+
+[[characters]]
+symbol = "θ"
+name = "theta"
+tags = ["th", "greek", "math", "physics", "angle"]
+
+[[characters]]
+symbol = "λ"
+name = "lambda"
+tags = ["l", "greek", "math", "lambda", "programming"]
+
+[[characters]]
+symbol = "μ"
+name = "mu"
+tags = ["m", "greek", "math", "physics", "micro"]
+
+[[characters]]
+symbol = "π"
+name = "pi"
+tags = ["p", "greek", "math", "pi", "3.14"]
+
+[[characters]]
+symbol = "σ"
+name = "sigma"
+tags = ["s", "greek", "math", "statistics"]
+
+[[characters]]
+symbol = "τ"
+name = "tau"
+tags = ["t", "greek", "math", "physics"]
+
+[[characters]]
+symbol = "φ"
+name = "phi"
+tags = ["ph", "greek", "math", "physics", "golden"]
+
+[[characters]]
+symbol = "ω"
+name = "omega"
+tags = ["o", "greek", "math", "physics"]
+
+[[characters]]
+symbol = "Δ"
+name = "delta uppercase"
+tags = ["D", "greek", "math", "delta", "difference"]
+
+[[characters]]
+symbol = "Σ"
+name = "sigma uppercase"
+tags = ["S", "greek", "math", "sum"]
+
+[[characters]]
+symbol = "Ω"
+name = "omega uppercase"
+tags = ["O", "greek", "math", "physics", "ohm"]
+
+# ── Пунктуация и типографика ─────────────────
+
+[[characters]]
+symbol = "—"
+name = "em dash"
+tags = ["dash", "em", "punctuation", "typography"]
+
+[[characters]]
+symbol = "–"
+name = "en dash"
+tags = ["dash", "en", "punctuation", "typography"]
+
+[[characters]]
+symbol = "…"
+name = "ellipsis"
+tags = ["ellipsis", "dots", "punctuation", "three"]
+
+[[characters]]
+symbol = "«"
+name = "left double angle quotation"
+tags = ["quote", "left", "french", "guillemet", "punctuation"]
+
+[[characters]]
+symbol = "»"
+name = "right double angle quotation"
+tags = ["quote", "right", "french", "guillemet", "punctuation"]
+
+[[characters]]
+symbol = "„"
+name = "double low quotation"
+tags = ["quote", "low", "german", "punctuation"]
+
+[[characters]]
+symbol = """
+name = "left double quotation"
+tags = ["quote", "left", "punctuation", "curly"]
+
+[[characters]]
+symbol = """
+name = "right double quotation"
+tags = ["quote", "right", "punctuation", "curly"]
+
+# ── Юридические и коммерческие ───────────────
+
+[[characters]]
+symbol = "©"
+name = "copyright"
+tags = ["legal", "copyright", "c"]
+
+[[characters]]
+symbol = "®"
+name = "registered trademark"
+tags = ["legal", "registered", "trademark", "r"]
+
+[[characters]]
+symbol = "™"
+name = "trademark"
+tags = ["legal", "trademark", "tm"]
+
+[[characters]]
+symbol = "°"
+name = "degree"
+tags = ["degree", "temperature", "angle", "math"]
+
+# ── Буквы с диакритикой (латиница) ───────────
+
+[[characters]]
+symbol = "é"
+name = "e acute"
+tags = ["e", "latin", "accent", "acute", "french", "spanish"]
+
+[[characters]]
+symbol = "è"
+name = "e grave"
+tags = ["e", "latin", "accent", "grave", "french"]
+
+[[characters]]
+symbol = "ê"
+name = "e circumflex"
+tags = ["e", "latin", "accent", "circumflex", "french"]
+
+[[characters]]
+symbol = "à"
+name = "a grave"
+tags = ["a", "latin", "accent", "grave", "french"]
+
+[[characters]]
+symbol = "â"
+name = "a circumflex"
+tags = ["a", "latin", "accent", "circumflex", "french"]
+
+[[characters]]
+symbol = "ñ"
+name = "n tilde"
+tags = ["n", "latin", "tilde", "spanish"]
+
+[[characters]]
+symbol = "ü"
+name = "u umlaut"
+tags = ["u", "latin", "umlaut", "german"]
+
+[[characters]]
+symbol = "ö"
+name = "o umlaut"
+tags = ["o", "latin", "umlaut", "german"]
+
+[[characters]]
+symbol = "ä"
+name = "a umlaut"
+tags = ["a", "latin", "umlaut", "german"]
+
+[[characters]]
+symbol = "ß"
+name = "sharp s"
+tags = ["s", "latin", "german", "eszett"]

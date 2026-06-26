@@ -28,17 +28,31 @@ fn main() {
         .build();
 
     let characters = cfg.characters;
-    let output_method = cfg.settings.output_method;
+    let max_results = cfg.settings.max_results;
+    let sel_indicator = cfg.settings.selection_indicator;
+    let no_sel_indicator = cfg.settings.no_selection_indicator;
+    let pending_symbol: Rc<RefCell<Option<String>>> = Rc::new(RefCell::new(None));
 
-    app.connect_activate(move |app| {
-        ui::window::build(
-            app,
-            characters.clone(),
-            output_method.clone(),
-            history.clone(),
-            history_path.clone(),
-        );
+    app.connect_activate({
+        let pending_symbol = pending_symbol.clone();
+        move |app| {
+            ui::window::build(
+                app,
+                characters.clone(),
+                max_results,
+                sel_indicator.clone(),
+                no_sel_indicator.clone(),
+                history.clone(),
+                history_path.clone(),
+                pending_symbol.clone(),
+            );
+        }
     });
 
     app.run();
+
+    if let Some(symbol) = pending_symbol.borrow_mut().take() {
+        std::thread::sleep(std::time::Duration::from_millis(50));
+        let _ = output::insert(&symbol);
+    }
 }

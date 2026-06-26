@@ -12,19 +12,17 @@ pub struct CharacterEntry {
     pub tags: Vec<String>,
 }
 
-#[derive(Debug, Deserialize, Clone)]
-#[serde(rename_all = "kebab-case")]
-pub enum OutputMethod {
-    Wtype,
-    WlCopy,
-    Ydotool,
-}
+fn default_selection_indicator() -> String { "> ".to_string() }
+fn default_no_selection_indicator() -> String { "  ".to_string() }
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "kebab-case")]
 pub struct Settings {
-    pub output_method: OutputMethod,
     pub max_results: usize,
+    #[serde(default = "default_selection_indicator")]
+    pub selection_indicator: String,
+    #[serde(default = "default_no_selection_indicator")]
+    pub no_selection_indicator: String,
 }
 
 #[derive(Debug, Deserialize)]

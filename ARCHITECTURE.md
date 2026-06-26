@@ -230,6 +230,36 @@ clap = { version = "4", features = ["derive"] }
 
 ## Roadmap (будущие версии)
 
+### CLI-интерфейс
+
+Сейчас `charmander` без аргументов открывает окно. В будущем стоит добавить подкоманды через `clap` (уже в планах зависимостей).
+
+**Задуманная структура:**
+
+```
+charmander                    # открыть popup-окно (биндится в WM на хоткей)
+charmander config default     # бэкап текущего конфига + создать новый дефолтный
+charmander config edit        # открыть конфиг в $EDITOR
+charmander config path        # напечатать путь к конфигу (удобно для скриптов)
+charmander config validate    # проверить синтаксис конфига и сообщить об ошибках
+charmander history clear      # очистить историю использований
+charmander history show       # показать топ N самых используемых символов
+charmander history path       # напечатать путь к файлу истории
+charmander list               # перечислить все символы из конфига (для скриптов)
+charmander version            # показать версию
+```
+
+**Детали `charmander config default`:**
+1. `mv ~/.config/charmander/config.toml ~/.config/charmander/config.toml.bak`
+2. Записать дефолтный конфиг (встроенный в бинарник через `include_str!`)
+3. Сообщить пользователю куда сохранён бэкап
+
+**Открытые вопросы по CLI:**
+- Стоит ли `charmander config edit` открывать редактор в том же терминале или detach?
+- Нужен ли `charmander insert <symbol>` для вставки символа без GUI (для скриптов)?
+
+### Прочие фичи
+
 - Вкладки/категории верхнего уровня (Latin / Greek / Math / Arrows / ...)
 - Fuzzy-поиск
 - Системный конфиг + пользовательский оверрайд (как `/etc/charmander/` + `~/.config/charmander/`)

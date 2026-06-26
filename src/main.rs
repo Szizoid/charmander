@@ -11,7 +11,7 @@ use std::rc::Rc;
 use gtk4::gio::prelude::{ApplicationExt, ApplicationExtManual};
 
 fn main() {
-    let home = std::env::var("HOME").expect("Переменная Home не задана");
+    let home = std::env::var("HOME").expect("HOME variable is not set");
 
     let config_path = PathBuf::from(format!("{}/.config/charmander/config.toml", home));
     let history_path = PathBuf::from(format!("{}/.config/charmander/history.toml", home));
@@ -19,8 +19,8 @@ fn main() {
     std::fs::create_dir_all(history_path.parent().unwrap()).unwrap();
 
     config::create_default_if_missing(&config_path)
-        .expect("Не удалось создать конфиг по умолчанию");
-    let cfg = config::load(&config_path).expect("Не удалось загрузить конфиг");
+        .expect("Failed to create default config");
+    let cfg = config::load(&config_path).expect("Failed to load config");
     let history = Rc::new(RefCell::new(history::History::load(&history_path)));
 
     let app = gtk4::Application::builder()
@@ -31,6 +31,11 @@ fn main() {
     let max_results = cfg.settings.max_results;
     let sel_indicator = cfg.settings.selection_indicator;
     let no_sel_indicator = cfg.settings.no_selection_indicator;
+
+    // Symbol is stored here by the GTK callback instead of being typed immediately.
+    // We must call wtype only after app.run() returns, because the layer shell window
+    // holds an exclusive keyboard grab until it's fully destroyed. wtype would otherwise
+    // inject keystrokes into our own window rather than the previously focused one.
     let pending_symbol: Rc<RefCell<Option<String>>> = Rc::new(RefCell::new(None));
 
     app.connect_activate({
@@ -51,6 +56,8 @@ fn main() {
 
     app.run();
 
+    // Brief pause so the compositor can process the window close and reassign focus
+    // before wtype tries to inject keystrokes.
     if let Some(symbol) = pending_symbol.borrow_mut().take() {
         std::thread::sleep(std::time::Duration::from_millis(50));
         let _ = output::insert(&symbol);

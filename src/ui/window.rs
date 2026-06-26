@@ -32,6 +32,8 @@ pub fn build(
 
     window.init_layer_shell();
     window.set_layer(Layer::Overlay);
+    // Exclusive mode routes all key events to this window, preventing them from
+    // leaking to whatever was focused underneath.
     window.set_keyboard_mode(KeyboardMode::Exclusive);
 
     let vbox = GtkBox::new(Orientation::Vertical, 8);
@@ -46,12 +48,16 @@ pub fn build(
 
     let history_ref = history.borrow();
     let mut initial = search::search("", &characters, &history_ref);
+    // Must drop the borrow before creating closures that also borrow history.
     drop(history_ref);
     if max_results > 0 {
         initial.truncate(max_results);
     }
     populate_list(&list_box, &initial, &no_sel_indicator);
 
+    // Tracks whether arrow-key navigation is currently inside the list (true)
+    // or back at the search entry (false). Cell<bool> is enough here — no need
+    // for RefCell's runtime borrow checking on a plain boolean.
     let in_list = Rc::new(Cell::new(false));
 
     let chars_for_search = characters.clone();
@@ -61,6 +67,7 @@ pub fn build(
     let no_sel_for_search = no_sel_indicator.clone();
 
     search_entry.connect_search_changed(move |entry| {
+        // Any text change resets navigation back to the search entry.
         in_list_for_search.set(false);
         list_box_for_search.unselect_all();
         let query = entry.text();
@@ -78,6 +85,8 @@ pub fn build(
 
     list_box.connect_row_activated(move |_, row| {
         if let Some(child) = row.child() {
+            // widget_name holds the raw symbol; label text is formatted for display
+            // and can't be parsed back reliably (it includes indicator prefix and name).
             let symbol = child.widget_name().to_string();
             {
                 let mut h = history_for_activation.borrow_mut();
@@ -99,6 +108,7 @@ pub fn build(
         );
     }
 
+    // Enter in the search field activates the first result directly.
     let list_box_for_enter = list_box.clone();
     search_entry.connect_activate(move |_| {
         if let Some(row) = list_box_for_enter.row_at_index(0) {
@@ -107,6 +117,9 @@ pub fn build(
     });
 
     let key_controller = gtk4::EventControllerKey::new();
+    // Capture phase intercepts key events top-down before any child widget sees them.
+    // Without this, EventControllerKey only fires when its own widget has focus,
+    // so we'd miss events while focus is inside the search entry or list.
     key_controller.set_propagation_phase(gtk4::PropagationPhase::Capture);
 
     let window_for_key = window.clone();
@@ -161,6 +174,7 @@ pub fn build(
                     }
                     gtk4::glib::Propagation::Stop
                 } else {
+                    // Propagate so search_entry's activate signal fires and handles Enter.
                     gtk4::glib::Propagation::Proceed
                 }
             }
@@ -184,6 +198,8 @@ fn populate_list(list_box: &ListBox, entries: &[CharacterEntry], no_sel: &str) {
             .label(format!("{}{}  {}", no_sel, entry.symbol, entry.name))
             .xalign(0.0)
             .build();
+        // Store the raw symbol separately so connect_row_activated can retrieve it
+        // without parsing the formatted label text.
         label.set_widget_name(&entry.symbol);
         list_box.append(&label);
     }
@@ -197,6 +213,7 @@ fn set_row_indicator(row: &gtk4::ListBoxRow, active: bool, sel: &str, no_sel: &s
         } else {
             (sel.chars().count(), no_sel)
         };
+        // chars().skip() instead of byte slicing to handle multi-byte Unicode indicators.
         let rest: String = text.chars().skip(skip).collect();
         label.set_text(&format!("{}{}", new_prefix, rest));
     }

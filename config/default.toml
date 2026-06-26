@@ -1,51 +1,51 @@
-# Charmander — конфигурация
+# Charmander — configuration
 #
-# Этот файл создаётся автоматически при первом запуске.
-# Вы можете редактировать его вручную — изменения вступят в силу при следующем запуске.
-# Расположение: ~/.config/charmander/config.toml
+# This file is created automatically on first launch.
+# You can edit it manually — changes take effect on the next run.
+# Location: ~/.config/charmander/config.toml
 
 [settings]
 
-# Максимальное количество символов в списке результатов.
-# 0 — показывать все совпадения без ограничений.
+# Maximum number of characters shown in the results list.
+# 0 means no limit — show all matches.
 max-results = 0
 
-# Символ, который отображается слева от выбранной строки при навигации стрелками.
-# Важно: длина selection-indicator и no-selection-indicator должна совпадать
-# (по количеству символов), иначе текст будет смещаться при навигации.
+# String displayed to the left of the currently selected row during keyboard navigation.
+# Important: selection-indicator and no-selection-indicator must have the same character
+# count (not byte count), otherwise the list will shift when navigating.
 #
-# Примеры:
-#   selection-indicator = "> "   # классическая стрелка
-#   selection-indicator = "» "   # двойная стрелка
-#   selection-indicator = "● "   # точка
+# Examples:
+#   selection-indicator = "> "   # classic arrow
+#   selection-indicator = "» "   # double angle bracket
+#   selection-indicator = "● "   # filled circle
 selection-indicator = "> "
 
-# Символ, который отображается слева от невыбранных строк.
-# Обычно — пробелы той же ширины, что и selection-indicator.
+# String displayed to the left of unselected rows.
+# Typically spaces matching the width of selection-indicator.
 #
-# Примеры:
-#   no-selection-indicator = "  "   # два пробела (для "> ")
-#   no-selection-indicator = "○ "   # кружок (пара к "● ")
+# Examples:
+#   no-selection-indicator = "  "   # two spaces (pair for "> ")
+#   no-selection-indicator = "○ "   # empty circle (pair for "● ")
 no-selection-indicator = "  "
 
 
 # ─────────────────────────────────────────────
-# Библиотека символов
+# Character library
 # ─────────────────────────────────────────────
 #
-# Каждый символ описывается блоком [[characters]].
-# Добавляйте свои символы по тому же образцу.
+# Each character is defined by a [[characters]] block.
+# Add your own characters following the same pattern.
 #
-# Поля:
-#   symbol  — сам символ (одиночный Unicode-символ или лигатура)
-#   name    — полное название на английском; используется в поиске
-#   tags    — список ключевых слов для поиска; чем больше — тем лучше
+# Fields:
+#   symbol  — the character itself (single Unicode codepoint or ligature)
+#   name    — full English name; used in search
+#   tags    — list of search keywords; more tags means better discoverability
 #
-# Алгоритм поиска:
-#   Точное совпадение тега > тег начинается с запроса > тег содержит запрос > имя содержит запрос
-#   Среди равнозначных совпадений — символы, которые вы использовали чаще, показываются выше.
+# Search ranking:
+#   exact tag match > tag starts with query > tag contains query > name contains query
+#   Within the same match tier, more frequently used characters appear higher.
 
-# ── Стрелки ──────────────────────────────────
+# ── Arrows ───────────────────────────────────
 
 [[characters]]
 symbol = "→"
@@ -87,7 +87,7 @@ symbol = "⇔"
 name = "double left right arrow"
 tags = ["arrow", "bidirectional", "double", "iff", "math", "logic"]
 
-# ── Математика ───────────────────────────────
+# ── Mathematics ──────────────────────────────
 
 [[characters]]
 symbol = "≈"
@@ -169,7 +169,7 @@ symbol = "∇"
 name = "nabla"
 tags = ["math", "nabla", "gradient", "del"]
 
-# ── Греческие буквы ──────────────────────────
+# ── Greek letters ────────────────────────────
 
 [[characters]]
 symbol = "α"
@@ -251,7 +251,7 @@ symbol = "Ω"
 name = "omega uppercase"
 tags = ["O", "greek", "math", "physics", "ohm"]
 
-# ── Пунктуация и типографика ─────────────────
+# ── Punctuation and typography ───────────────
 
 [[characters]]
 symbol = "—"
@@ -293,7 +293,7 @@ symbol = """
 name = "right double quotation"
 tags = ["quote", "right", "punctuation", "curly"]
 
-# ── Юридические и коммерческие ───────────────
+# ── Legal and commercial ─────────────────────
 
 [[characters]]
 symbol = "©"
@@ -315,7 +315,7 @@ symbol = "°"
 name = "degree"
 tags = ["degree", "temperature", "angle", "math"]
 
-# ── Буквы с диакритикой (латиница) ───────────
+# ── Latin letters with diacritics ────────────
 
 [[characters]]
 symbol = "é"

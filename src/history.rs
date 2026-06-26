@@ -14,8 +14,10 @@ impl History {
     pub fn load(path: &PathBuf) -> Self {
         let content = match fs::read_to_string(path) {
             Ok(c) => c,
+            // Missing or unreadable file is fine — history just starts fresh.
             Err(_) => return Self::default(),
         };
+        // Corrupt file also starts fresh rather than crashing; history is non-critical.
         toml::from_str(&content).unwrap_or_default()
     }
 
@@ -25,6 +27,8 @@ impl History {
         Ok(())
     }
 
+    // Key is the raw Unicode symbol, not its display name, so lookups are stable
+    // even if the user renames a character in the config.
     pub fn get_count(&self, symbol: &str) -> u32 {
         *self.counts.get(symbol).unwrap_or(&0)
     }

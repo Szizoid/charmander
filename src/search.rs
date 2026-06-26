@@ -13,28 +13,22 @@ fn compute_score(query: &str, entry: &CharacterEntry, history: &History) -> u32 
         .iter()
         .map(|tag| {
             let tag = tag.to_lowercase();
-            if tag == query {
-                4
-            } else if tag.starts_with(query) {
-                3
-            } else if tag.contains(query) {
-                2
-            } else {
-                0
-            }
+            if tag == query { 4 }
+            else if tag.starts_with(query) { 3 }
+            else if tag.contains(query) { 2 }
+            else { 0 }
         })
         .max()
         .unwrap_or(0)
-        .max(if entry.name.to_lowercase().contains(query) {
-            1
-        } else {
-            0
-        });
+        // Name match is a fallback when no tag matches.
+        .max(if entry.name.to_lowercase().contains(query) { 1 } else { 0 });
 
     if match_priority == 0 {
         return 0;
     }
 
+    // Multiplier of 1000 ensures match quality always dominates over usage frequency.
+    // Usage only breaks ties within the same match tier.
     match_priority * 1000 + usage
 }
 
@@ -57,6 +51,7 @@ pub fn search(
         })
         .collect();
 
+    // Descending order: highest score (best match + most used) comes first.
     results.sort_by(|a, b| b.0.cmp(&a.0));
 
     results.into_iter().map(|(_, entry)| entry).collect()

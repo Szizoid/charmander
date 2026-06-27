@@ -49,7 +49,7 @@ dependencies = [
 
 [[package]]
 name = "charmander"
-version = "0.2.1"
+version = "0.2.2"
 dependencies = [
  "gtk4",
  "gtk4-layer-shell",

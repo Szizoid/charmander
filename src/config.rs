@@ -49,3 +49,17 @@ pub fn create_default_if_missing(path: &PathBuf) -> Result<(), Box<dyn std::erro
     }
     Ok(())
 }
+
+pub fn restore_default(path: &PathBuf) -> Result<(), Box<dyn std::error::Error>> {
+    if path.exists() {
+        let backup = path.with_extension("toml.bak");
+        fs::rename(path, &backup)?;
+        println!("Backup saved to {}", backup.display());
+    }
+    if let Some(parent) = path.parent() {
+        fs::create_dir_all(parent)?;
+    }
+    fs::write(path, DEFAULT_CONFIG)?;
+    println!("Default config written to {}", path.display());
+    Ok(())
+}

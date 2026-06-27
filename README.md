@@ -73,27 +73,31 @@ Charmander uses the [`wlr-layer-shell`](https://wayland.app/protocols/wlr-layer-
 
 ## Installation
 
-### From source
+### AUR (Arch Linux)
 
 ```bash
-# 1. Install dependencies (Arch Linux example)
-sudo pacman -S gtk4 gtk4-layer-shell wtype
+yay -S charmander-git
+# or
+paru -S charmander-git
+```
 
-# 2. Clone and build
+### From source — Arch Linux
+
+```bash
+git clone https://github.com/Szizoid/charmander.git
+cd charmander
+makepkg -si
+```
+
+### From source — other distros
+
+Install dependencies: `gtk4`, `gtk4-layer-shell`, `wtype` (names may vary by distro).
+
+```bash
 git clone https://github.com/Szizoid/charmander.git
 cd charmander
 cargo build --release
-
-# 3. Install the binary
 sudo install -Dm755 target/release/charmander /usr/local/bin/charmander
-```
-
-### AUR *(coming soon)*
-
-```bash
-yay -S charmander
-# or
-paru -S charmander
 ```
 
 ---
@@ -138,7 +142,7 @@ binds {
 
 ## Configuration
 
-The config file is created automatically at `~/.config/charmander/config.toml` on first launch.
+The config file is created automatically at `~/.config/charmander/config.toml` on first launch. Usage history is stored separately at `~/.local/share/charmander/history.toml` and is managed automatically.
 
 ### Settings
 
@@ -221,7 +225,6 @@ charmander version            # print version
 - [ ] **Categories / tabs** — group characters by Latin, Greek, Math, Arrows, etc.
 - [ ] **Window customization** — size, padding, font via config
 - [ ] **System config override** — `/etc/charmander/` + `~/.config/charmander/` layering
-- [ ] **AUR package** — `charmander` and `charmander-git`
 
 ---
 
@@ -239,7 +242,6 @@ charmander/
 │       └── window.rs   # GTK4 overlay window with layer shell
 ├── config/
 │   └── default.toml    # Default character library (embedded in binary)
-├── ARCHITECTURE.md
 └── README.md
 ```
 

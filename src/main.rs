@@ -11,6 +11,12 @@ use std::rc::Rc;
 use gtk4::gio::prelude::{ApplicationExt, ApplicationExtManual};
 
 fn main() {
+    let args: Vec<String> = std::env::args().collect();
+    if args.iter().any(|a| a == "-v" || a == "--version") {
+        println!("charmander {}", env!("CARGO_PKG_VERSION"));
+        return;
+    }
+
     let home = std::env::var("HOME").expect("HOME variable is not set");
 
     let config_path = PathBuf::from(format!("{}/.config/charmander/config.toml", home));

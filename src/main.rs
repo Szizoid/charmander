@@ -14,7 +14,7 @@ fn main() {
     let home = std::env::var("HOME").expect("HOME variable is not set");
 
     let config_path = PathBuf::from(format!("{}/.config/charmander/config.toml", home));
-    let history_path = PathBuf::from(format!("{}/.config/charmander/history.toml", home));
+    let history_path = PathBuf::from(format!("{}/.local/share/charmander/history.toml", home));
 
     std::fs::create_dir_all(history_path.parent().unwrap()).unwrap();
 

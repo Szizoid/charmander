@@ -1,7 +1,7 @@
 # Maintainer: Szizoid <overwhelming.baboon.vqfn@mask.me>
 
 pkgname=charmander-git
-pkgver=r1.0000000
+pkgver=r13.2ed4522
 pkgrel=1
 pkgdesc="Wayland popup character picker — insert any Unicode symbol via hotkey"
 arch=('x86_64' 'i686' 'aarch64' 'armv7h' 'armv6h')

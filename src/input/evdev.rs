@@ -12,7 +12,7 @@ pub fn find_physical_keyboards() -> Vec<(PathBuf, Device)> {
         let has_physical_path = device.physical_path().is_some();
 
         if has_enter && has_physical_path {
-            founded.push((path, device));
+            found.push((path, device));
         }
     }
     found

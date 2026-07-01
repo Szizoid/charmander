@@ -1,3 +1,8 @@
+mod input;
+
 fn main() {
-    println!("Hello, world!");
+    let devices = input::evdev::find_physical_keyboards();
+    for (path, device) in devices {
+        println!("{:?}: {}", path, device.name().unwrap());
+    }
 }

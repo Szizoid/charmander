@@ -1,6 +1,6 @@
-use std::{io, path::PathBuf};
+use std::{io, path::PathBuf, time::SystemTime};
 
-use evdev::{Device, EventType, InputEvent, KeyCode};
+use evdev::{Device, EventSummary, EventType, InputEvent, KeyCode};
 
 pub fn find_physical_keyboards() -> Option<Vec<(PathBuf, Device)>> {
     let mut found: Vec<(PathBuf, Device)> = Vec::new();
@@ -32,4 +32,13 @@ pub fn get_key_events(device: &mut Device) -> Result<Vec<InputEvent>, io::Error>
     }
 
     Ok(key_events)
+}
+
+pub fn parse_event(event: InputEvent) -> Option<(KeyCode, i32, SystemTime)> {
+    let timestamp = event.timestamp();
+    if let EventSummary::Key(_, key_code, state) = event.destructure() {
+        Some((key_code, state, timestamp))
+    } else {
+        Option::None
+    }
 }

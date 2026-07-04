@@ -1,6 +1,6 @@
-use std::path::PathBuf;
+use std::{io, path::PathBuf};
 
-use evdev::{Device, FetchEventsSynced, InputEvent, KeyCode};
+use evdev::{Device, EventType, InputEvent, KeyCode};
 
 pub fn find_physical_keyboards() -> Option<Vec<(PathBuf, Device)>> {
     let mut found: Vec<(PathBuf, Device)> = Vec::new();
@@ -15,17 +15,21 @@ pub fn find_physical_keyboards() -> Option<Vec<(PathBuf, Device)>> {
             found.push((path, device));
         }
     }
-    if found.iter().len() > 0 {
-        Some(found)
-    } else {
+    if found.is_empty() {
         Option::None
+    } else {
+        Some(found)
     }
 }
 
-pub fn get_events(device: &mut Device) -> Option<FetchEventsSynced> {
-    let events = device.fetch_events();
-    match events {
-        Result::Ok(ev) => Some(ev),
-        Result::Err(_) => Option::None,
+pub fn get_key_events(device: &mut Device) -> Result<Vec<InputEvent>, io::Error> {
+    let mut key_events: Vec<InputEvent> = Vec::new();
+    let events = device.fetch_events()?;
+    for event in events {
+        if event.event_type() == EventType::KEY {
+            key_events.push(event);
+        }
     }
+
+    Ok(key_events)
 }

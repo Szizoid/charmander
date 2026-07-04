@@ -1,7 +1,10 @@
 use std::{io, path::PathBuf, time::SystemTime};
 
-use evdev::{Device, EventSummary, EventType, InputEvent, KeyCode};
+use evdev::{Device, EventSummary, EventType, KeyCode};
 
+// TODO: when this finds more than one physical keyboard, add a way to pick a specific
+// one instead of grabbing an arbitrary one (config file, env var, or an interactive
+// CLI/TUI prompt listing the candidates).
 pub fn find_physical_keyboards() -> Option<Vec<(PathBuf, Device)>> {
     let mut found: Vec<(PathBuf, Device)> = Vec::new();
 
@@ -22,23 +25,18 @@ pub fn find_physical_keyboards() -> Option<Vec<(PathBuf, Device)>> {
     }
 }
 
-pub fn get_key_events(device: &mut Device) -> Result<Vec<InputEvent>, io::Error> {
-    let mut key_events: Vec<InputEvent> = Vec::new();
+pub fn get_parsed_key_events(
+    device: &mut Device,
+) -> Result<Vec<(KeyCode, i32, SystemTime)>, io::Error> {
+    let mut parsed_events: Vec<(KeyCode, i32, SystemTime)> = Vec::new();
     let events = device.fetch_events()?;
     for event in events {
         if event.event_type() == EventType::KEY {
-            key_events.push(event);
+            let EventSummary::Key(_, code, state) = event.destructure() else {
+                continue;
+            };
+            parsed_events.push((code, state, event.timestamp()));
         }
     }
-
-    Ok(key_events)
-}
-
-pub fn parse_event(event: InputEvent) -> Option<(KeyCode, i32, SystemTime)> {
-    let timestamp = event.timestamp();
-    if let EventSummary::Key(_, key_code, state) = event.destructure() {
-        Some((key_code, state, timestamp))
-    } else {
-        Option::None
-    }
+    Ok(parsed_events)
 }

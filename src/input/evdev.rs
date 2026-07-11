@@ -25,6 +25,7 @@ pub fn find_physical_keyboards() -> Option<Vec<(PathBuf, Device)>> {
     }
 }
 
+#[derive(Copy, Clone, Debug)]
 pub enum KeyEventState {
     Release = 0,
     Press = 1,

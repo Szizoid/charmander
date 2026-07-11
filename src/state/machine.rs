@@ -70,7 +70,10 @@ impl State {
                                     }],
                                     selection: 0,
                                 },
-                                Action::suppress(),
+                                Action {
+                                    forward: false,
+                                    emulate: Emulate::Release(tracking_key),
+                                },
                             )
                         } else {
                             (State::Idle, Action::forward())
@@ -121,7 +124,7 @@ impl State {
                     (compared_key, KeyEventState::Release) if compared_key == target_key => (
                         State::Idle,
                         Action {
-                            forward: true,
+                            forward: false,
                             emulate: Emulate::Commit(symbols[selection].value.clone()),
                         },
                     ),
@@ -136,10 +139,13 @@ impl State {
                     ),
                     // Mod + Released
                     // Exit + Released
-                    // Other + Released
-                    (compared_key, KeyEventState::Release) if compared_key != target_key => {
-                        (self, Action::forward())
+                    (compared_key, KeyEventState::Release)
+                        if compared_key == config::MOD_KEY || compared_key == config::EXIT_KEY =>
+                    {
+                        (self, Action::suppress())
                     }
+                    // Other + Released
+                    (_, KeyEventState::Release) => (self, Action::forward()),
                     // Exit + Repeated
                     // Target + Repeated
                     // Other + Repeated
@@ -179,5 +185,6 @@ impl Action {
 
 pub enum Emulate {
     Nothing,
+    Release(KeyCode),
     Commit(String),
 }

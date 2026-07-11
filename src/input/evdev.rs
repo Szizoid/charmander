@@ -25,16 +25,38 @@ pub fn find_physical_keyboards() -> Option<Vec<(PathBuf, Device)>> {
     }
 }
 
+pub enum KeyEventState {
+    Release = 0,
+    Press = 1,
+    Repeat = 2,
+}
+
+impl TryFrom<i32> for KeyEventState {
+    type Error = io::Error;
+    fn try_from(value: i32) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(KeyEventState::Release),
+            1 => Ok(KeyEventState::Press),
+            2 => Ok(KeyEventState::Repeat),
+            _ => Err(io::Error::other(format!(
+                "unexpected value for key state: {}",
+                value
+            ))),
+        }
+    }
+}
+
 pub fn get_parsed_key_events(
     device: &mut Device,
-) -> Result<Vec<(KeyCode, i32, SystemTime)>, io::Error> {
-    let mut parsed_events: Vec<(KeyCode, i32, SystemTime)> = Vec::new();
+) -> Result<Vec<(KeyCode, KeyEventState, SystemTime)>, io::Error> {
+    let mut parsed_events: Vec<(KeyCode, KeyEventState, SystemTime)> = Vec::new();
     let events = device.fetch_events()?;
     for event in events {
         if event.event_type() == EventType::KEY {
-            let EventSummary::Key(_, code, state) = event.destructure() else {
+            let EventSummary::Key(_, code, raw_state) = event.destructure() else {
                 continue;
             };
+            let state = KeyEventState::try_from(raw_state)?;
             parsed_events.push((code, state, event.timestamp()));
         }
     }

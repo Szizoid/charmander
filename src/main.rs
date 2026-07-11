@@ -8,6 +8,7 @@ use crate::input::{
 };
 
 mod input;
+mod state;
 
 fn main() {
     let mut my_keyboard = find_physical_keyboards().unwrap().pop().unwrap().1;

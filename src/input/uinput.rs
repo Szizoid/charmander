@@ -2,6 +2,8 @@ use std::io::Result;
 
 use evdev::{AttributeSet, EventType, InputEvent, KeyCode, uinput::VirtualDevice};
 
+use crate::input::evdev::KeyEventState;
+
 pub fn build_virtual_keyboard() -> Result<VirtualDevice> {
     let mut builder = VirtualDevice::builder()?;
     builder = builder.name("Charmander");
@@ -130,10 +132,11 @@ fn get_key_codes() -> AttributeSet<KeyCode> {
     AttributeSet::from_iter(keys)
 }
 
-pub fn create_event(keys: &[KeyCode], state: i32) -> Vec<InputEvent> {
+pub fn create_event(keys: &[KeyCode], state: KeyEventState) -> Vec<InputEvent> {
     let mut events: Vec<InputEvent> = Vec::new();
+    let raw_state = state as i32;
     for key in keys {
-        let press_event = InputEvent::new(EventType::KEY.0, key.0, state);
+        let press_event = InputEvent::new(EventType::KEY.0, key.0, raw_state);
         events.push(press_event);
     }
     events

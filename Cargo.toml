@@ -6,3 +6,5 @@ license = "GPL-3.0-or-later"
 
 [dependencies]
 evdev = "0.13.2"
+iced = "0.14.0"
+iced_layershell = "0.19.0"

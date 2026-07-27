@@ -14,8 +14,13 @@ mod input;
 mod state;
 
 fn main() {
+    // waycrate/exwlshelleventloop counter example
+}
+
+#[allow(unused)]
+fn test_state_machine() {
     let mut my_keyboard = find_physical_keyboards().unwrap().pop().unwrap().1;
-    my_keyboard.grab();
+    my_keyboard.grab().unwrap();
     let start_time = time::SystemTime::now();
     let mut virtual_keyboard = build_virtual_keyboard().unwrap();
     let mut state = State::Idle;
@@ -43,6 +48,6 @@ fn main() {
                 Emulate::Commit(value) => println!("would commit: {value}"),
             }
         }
-        virtual_keyboard.emit(&false_events);
+        virtual_keyboard.emit(&false_events).unwrap();
     }
 }

@@ -2,6 +2,8 @@ use std::{io, path::PathBuf, time::SystemTime};
 
 use evdev::{Device, EventSummary, EventType, KeyCode};
 
+use crate::config;
+
 // TODO: when this finds more than one physical keyboard, add a way to pick a specific
 // one instead of grabbing an arbitrary one (config file, env var, or an interactive
 // CLI/TUI prompt listing the candidates).
@@ -11,7 +13,7 @@ pub fn find_physical_keyboards() -> Option<Vec<(PathBuf, Device)>> {
     for (path, device) in evdev::enumerate() {
         let has_enter = device
             .supported_keys()
-            .is_some_and(|keys| keys.contains(KeyCode::KEY_ENTER));
+            .is_some_and(|keys| keys.contains(config::PROBE_KEY));
         let has_physical_path = device.physical_path().is_some();
 
         if has_enter && has_physical_path {

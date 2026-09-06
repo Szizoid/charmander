@@ -2,11 +2,12 @@ use std::io::Result;
 
 use evdev::{AttributeSet, EventType, InputEvent, KeyCode, uinput::VirtualDevice};
 
+use crate::config;
 use crate::input::evdev::KeyEventState;
 
 pub fn build_virtual_keyboard() -> Result<VirtualDevice> {
     let mut builder = VirtualDevice::builder()?;
-    builder = builder.name("Charmander");
+    builder = builder.name(config::APP_NAME);
     let keys = get_key_codes();
     builder = builder
         .with_keys(&keys)

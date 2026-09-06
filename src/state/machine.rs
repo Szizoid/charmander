@@ -2,16 +2,8 @@ use std::time::SystemTime;
 
 use evdev::KeyCode;
 
+use crate::config;
 use crate::input::evdev::KeyEventState;
-
-pub mod config {
-    use evdev::KeyCode;
-    use std::time::Duration;
-
-    pub const TRACKING_TIME_MS: Duration = Duration::from_millis(1000);
-    pub const MOD_KEY: KeyCode = KeyCode::KEY_LEFT;
-    pub const EXIT_KEY: KeyCode = KeyCode::KEY_ESC;
-}
 
 #[derive(Debug)]
 pub enum State {
@@ -64,10 +56,7 @@ impl State {
                             (
                                 State::Accent {
                                     target_key: tracking_key,
-                                    symbols: vec![Candidate {
-                                        name: String::from("test1"),
-                                        value: String::from("test_value1"),
-                                    }],
+                                    symbols: config::test_symbols(),
                                     selection: 0,
                                 },
                                 Action {

@@ -1,20 +1,32 @@
 use std::time;
 
 use evdev::InputEvent;
+use iced_layershell::Settings;
+use iced_layershell::build_pattern::application;
+use iced_layershell::settings::{LayerShellSettings, StartMode};
 
-use crate::{
-    input::{
-        evdev::{KeyEventState, find_physical_keyboards, get_parsed_key_events},
-        uinput::{build_virtual_keyboard, create_event},
-    },
-    state::machine::{Emulate, State},
-};
+use crate::input::evdev::{KeyEventState, find_physical_keyboards, get_parsed_key_events};
+use crate::input::uinput::{build_virtual_keyboard, create_event};
+use crate::state::machine::{Emulate, State};
+use crate::ui::window::{Charmander, namespace, update, view};
 
 mod input;
 mod state;
+mod ui;
 
-fn main() {
-    // waycrate/exwlshelleventloop counter example
+fn main() -> Result<(), iced_layershell::Error> {
+    let _ = application(Charmander::default, namespace, update, view)
+        .settings(Settings {
+            layer_settings: LayerShellSettings {
+                size: Some((0, 400)),
+                exclusive_zone: 400,
+                start_mode: StartMode::Active,
+                ..Default::default()
+            },
+            ..Default::default()
+        })
+        .run();
+    Ok(())
 }
 
 #[allow(unused)]

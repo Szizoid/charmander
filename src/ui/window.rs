@@ -73,11 +73,7 @@ pub fn view(charmander: &Charmander) -> Element<'_, Message> {
             .fold(Column::new(), |column, (i, candidate)| {
                 let label = Text::new(candidate.name.clone());
                 let label = if i == *selection {
-                    label.color(iced::Color::from_rgb(
-                        config::SELECTED_COLOR_RED,
-                        config::SELECTED_COLOR_GREEN,
-                        config::SELECTED_COLOR_BLUE,
-                    ))
+                    label.color(config::SELECTED_COLOR)
                 } else {
                     label
                 };

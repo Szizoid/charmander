@@ -1,4 +1,5 @@
 use evdev::KeyCode;
+use iced::Color;
 use std::time::Duration;
 
 use crate::state::Candidate;
@@ -28,10 +29,7 @@ pub fn test_symbols() -> Vec<Candidate> {
 // UI settings
 pub const WINDOW_SIZE: Option<(u32, u32)> = Some((0, 400));
 pub const EXCLUSIVE_ZONE: i32 = 400;
-pub const SELECTED_COLOR: (f32, f32, f32) = (1.0, 1.0, 0.0);
-pub const SELECTED_COLOR_RED: f32 = SELECTED_COLOR.0;
-pub const SELECTED_COLOR_GREEN: f32 = SELECTED_COLOR.1;
-pub const SELECTED_COLOR_BLUE: f32 = SELECTED_COLOR.2;
+pub const SELECTED_COLOR: Color = Color::from_rgb(1.0, 1.0, 0.0);
 
 // INPUT settings
 pub const PROBE_KEY: KeyCode = KeyCode::KEY_ENTER;

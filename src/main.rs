@@ -1,5 +1,5 @@
 use charmander::config;
-use charmander::ui::window::{Charmander, namespace, update, view};
+use charmander::ui::window::{Charmander, namespace, subscription, update, view};
 use iced_layershell::Settings;
 use iced_layershell::build_pattern::application;
 use iced_layershell::settings::{LayerShellSettings, StartMode};
@@ -15,6 +15,7 @@ fn main() -> Result<(), iced_layershell::Error> {
             },
             ..Default::default()
         })
+        .subscription(subscription)
         .run()?;
     Ok(())
 }

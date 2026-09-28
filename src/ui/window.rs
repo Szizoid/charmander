@@ -1,5 +1,6 @@
+use evdev::KeyCode;
 use iced::widget::{Column, Text};
-use iced::{Element, Task};
+use iced::{Element, Event, Subscription, Task, event, window};
 use iced_layershell::to_layer_message;
 
 use crate::config;
@@ -82,4 +83,37 @@ pub fn view(charmander: &Charmander) -> Element<'_, Message> {
             .into(),
         None => Column::new().into(),
     }
+}
+
+#[expect(
+    clippy::needless_pass_by_value,
+    reason = "signature is dictated by iced::event::listen_with"
+)]
+fn mouse_to_message(
+    event: Event,
+    _status: event::Status,
+    _window_id: window::Id,
+) -> Option<Message> {
+    use iced::mouse::{
+        Button::Left as LeftButton, Button::Right as RightButton,
+        Event::ButtonPressed as MouseButtonPressed,
+    };
+
+    match event {
+        Event::Mouse(MouseButtonPressed(LeftButton)) => {
+            Some(Message::StateMachineChanged(State::Accent {
+                target_key: KeyCode::KEY_L,
+                symbols: config::test_symbols(),
+                selection: 0,
+            }))
+        }
+        Event::Mouse(MouseButtonPressed(RightButton)) => {
+            Some(Message::StateMachineChanged(State::Idle))
+        }
+        _ => None,
+    }
+}
+
+pub fn subscription(_charmander: &Charmander) -> Subscription<Message> {
+    event::listen_with(mouse_to_message)
 }

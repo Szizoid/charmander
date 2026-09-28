@@ -1,6 +1,6 @@
 [package]
 name = "charmander"
-version = "0.4.1"
+version = "0.4.2"
 edition = "2024"
 license = "GPL-3.0-or-later"
 description = "Type accented and special characters on Wayland by holding a key and pressing a modifier"

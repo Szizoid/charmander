@@ -20,10 +20,28 @@ pub fn _symbols() -> Vec<Candidate> {
 
 #[allow(clippy::must_use_candidate)]
 pub fn test_symbols() -> Vec<Candidate> {
-    vec![Candidate {
-        name: String::from("test1"),
-        value: String::from("test_value1"),
-    }]
+    vec![
+        Candidate {
+            name: String::from("l with stroke"),
+            value: String::from("ł"),
+        },
+        Candidate {
+            name: String::from("l with acute"),
+            value: String::from("ĺ"),
+        },
+        Candidate {
+            name: String::from("l with caron"),
+            value: String::from("ľ"),
+        },
+        Candidate {
+            name: String::from("l with cedilla"),
+            value: String::from("ļ"),
+        },
+        Candidate {
+            name: String::from("l with middle dot"),
+            value: String::from("ŀ"),
+        },
+    ]
 }
 
 // UI settings

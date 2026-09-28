@@ -30,9 +30,9 @@ pub fn find_physical_keyboards() -> Option<Vec<(PathBuf, Device)>> {
 
 #[derive(Copy, Clone, Debug)]
 pub enum KeyEventState {
-    Release = 0,
-    Press = 1,
-    Repeat = 2,
+    Release,
+    Press,
+    Repeat,
 }
 
 impl TryFrom<i32> for KeyEventState {
@@ -45,6 +45,16 @@ impl TryFrom<i32> for KeyEventState {
             _ => Err(io::Error::other(format!(
                 "unexpected value for key state: {value}"
             ))),
+        }
+    }
+}
+
+impl From<KeyEventState> for i32 {
+    fn from(value: KeyEventState) -> Self {
+        match value {
+            KeyEventState::Release => 0,
+            KeyEventState::Press => 1,
+            KeyEventState::Repeat => 2,
         }
     }
 }

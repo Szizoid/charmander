@@ -135,10 +135,9 @@ pub fn build_virtual_keyboard() -> Result<VirtualDevice> {
 #[must_use]
 pub fn create_event(keys: &[KeyCode], state: KeyEventState) -> Vec<InputEvent> {
     let mut events: Vec<InputEvent> = Vec::new();
-    let raw_state = state as i32;
     for key in keys {
-        let press_event = InputEvent::new(EventType::KEY.0, key.0, raw_state);
-        events.push(press_event);
+        let event = InputEvent::new(EventType::KEY.0, key.0, state.into());
+        events.push(event);
     }
     events
 }

@@ -20,6 +20,7 @@ pub enum State {
 }
 
 impl State {
+    #[must_use]
     pub fn handle(
         self,
         key: KeyCode,
@@ -48,10 +49,7 @@ impl State {
                     (config::MOD_KEY, KeyEventState::Press) => {
                         if now
                             .duration_since(pressed_at)
-                            .expect(
-                                "SystemTime is compared to SystemTime. There should be no errors",
-                            )
-                            .le(&config::TRACKING_TIME_MS)
+                            .is_ok_and(|d| d <= config::TRACKING_TIME_MS)
                         {
                             (
                                 State::Accent {
@@ -157,6 +155,7 @@ pub struct Action {
 }
 
 impl Action {
+    #[must_use]
     pub fn forward() -> Self {
         Action {
             forward: true,
@@ -164,6 +163,7 @@ impl Action {
         }
     }
 
+    #[must_use]
     pub fn suppress() -> Self {
         Action {
             forward: false,

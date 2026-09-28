@@ -5,6 +5,10 @@ use iced_layershell::to_layer_message;
 use crate::config;
 use crate::state::machine::{Candidate, State};
 
+#[expect(
+    clippy::must_use_candidate,
+    reason = "callback passed to iced_layershell, never called directly"
+)]
 pub fn namespace() -> String {
     String::from(config::APP_NAME)
 }
@@ -22,7 +26,7 @@ pub struct Charmander {
 
 impl Charmander {
     pub fn accent(&mut self, candidates: Vec<Candidate>, selection: usize) {
-        self.overlay = Some((candidates, selection))
+        self.overlay = Some((candidates, selection));
     }
     pub fn hide(&mut self) {
         self.overlay = None;
@@ -57,7 +61,11 @@ pub fn update(charmander: &mut Charmander, message: Message) -> Task<Message> {
     }
 }
 
-pub fn view<'a>(charmander: &'a Charmander) -> Element<'a, Message> {
+#[expect(
+    clippy::must_use_candidate,
+    reason = "callback passed to iced_layershell, never called directly"
+)]
+pub fn view(charmander: &Charmander) -> Element<'_, Message> {
     match &charmander.overlay {
         Some((candidates, selection)) => candidates
             .iter()

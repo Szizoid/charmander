@@ -10,12 +10,14 @@ pub const TRACKING_TIME_MS: Duration = Duration::from_millis(1000);
 pub const MOD_KEY: KeyCode = KeyCode::KEY_LEFT;
 pub const EXIT_KEY: KeyCode = KeyCode::KEY_ESC;
 
+#[must_use]
 pub fn _symbols() -> Vec<Candidate> {
     // Candidate-parsing logic from some external file goes here. Might make sense
     // to move this into a separate submodule.
     todo!();
 }
 
+#[allow(clippy::must_use_candidate)]
 pub fn test_symbols() -> Vec<Candidate> {
     vec![Candidate {
         name: String::from("test1"),

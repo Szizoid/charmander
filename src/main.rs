@@ -5,7 +5,7 @@ use iced_layershell::build_pattern::application;
 use iced_layershell::settings::{LayerShellSettings, StartMode};
 
 fn main() -> Result<(), iced_layershell::Error> {
-    let _ = application(Charmander::default, namespace, update, view)
+    application(Charmander::default, namespace, update, view)
         .settings(Settings {
             layer_settings: LayerShellSettings {
                 size: config::WINDOW_SIZE,
@@ -15,6 +15,6 @@ fn main() -> Result<(), iced_layershell::Error> {
             },
             ..Default::default()
         })
-        .run();
+        .run()?;
     Ok(())
 }

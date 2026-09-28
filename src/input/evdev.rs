@@ -7,6 +7,7 @@ use crate::config;
 // TODO: when this finds more than one physical keyboard, add a way to pick a specific
 // one instead of grabbing an arbitrary one (config file, env var, or an interactive
 // CLI/TUI prompt listing the candidates).
+#[must_use]
 pub fn find_physical_keyboards() -> Option<Vec<(PathBuf, Device)>> {
     let mut found: Vec<(PathBuf, Device)> = Vec::new();
 
@@ -42,13 +43,18 @@ impl TryFrom<i32> for KeyEventState {
             1 => Ok(KeyEventState::Press),
             2 => Ok(KeyEventState::Repeat),
             _ => Err(io::Error::other(format!(
-                "unexpected value for key state: {}",
-                value
+                "unexpected value for key state: {value}"
             ))),
         }
     }
 }
 
+/// Reads pending events from `device` and returns the key events among them.
+///
+/// # Errors
+///
+/// Returns an error if reading from `device` fails (see [`Device::fetch_events`]),
+/// or if a key event has a state value other than 0 (release), 1 (press) or 2 (repeat).
 pub fn get_parsed_key_events(
     device: &mut Device,
 ) -> Result<Vec<(KeyCode, KeyEventState, SystemTime)>, io::Error> {

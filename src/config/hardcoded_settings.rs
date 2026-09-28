@@ -1,7 +1,7 @@
 use evdev::KeyCode;
 use std::time::Duration;
 
-use crate::state::machine::Candidate;
+use crate::state::Candidate;
 
 pub const APP_NAME: &str = "Charmander";
 

@@ -11,7 +11,7 @@ use evdev::InputEvent;
 
 use charmander::input::evdev::{KeyEventState, find_physical_keyboards, get_parsed_key_events};
 use charmander::input::uinput::{build_virtual_keyboard, create_event};
-use charmander::state::machine::{Emulate, State};
+use charmander::state::{Emulate, State};
 
 fn main() {
     // Grab whatever physical keyboard we find first (see the TODO in
@@ -60,7 +60,7 @@ fn main() {
                 Emulate::Release(released_key) => {
                     // Synthetic Release — the fix for the compositor's autorepeat
                     // (see the note about the Tracking -> Accent transition in
-                    // state/machine.rs): the key is still physically held down,
+                    // state.rs): the key is still physically held down,
                     // but the system needs to think it's released.
                     false_events.append(&mut create_event(&[released_key], KeyEventState::Release));
                 }

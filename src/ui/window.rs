@@ -3,7 +3,7 @@ use iced::{Element, Task};
 use iced_layershell::to_layer_message;
 
 use crate::config;
-use crate::state::machine::{Candidate, State};
+use crate::state::{Candidate, State};
 
 #[expect(
     clippy::must_use_candidate,

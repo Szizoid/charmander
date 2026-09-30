@@ -45,8 +45,8 @@ pub fn test_symbols() -> Vec<Candidate> {
 }
 
 // UI settings
-pub const WINDOW_SIZE: Option<(u32, u32)> = Some((0, 400));
-pub const EXCLUSIVE_ZONE: i32 = 400;
+pub const WINDOW_SIZE: Option<(u32, u32)> = Some((200, 40));
+pub const EXCLUSIVE_ZONE: i32 = -1;
 pub const SELECTED_COLOR: Color = Color::from_rgb(1.0, 1.0, 0.0);
 
 // INPUT settings

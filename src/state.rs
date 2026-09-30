@@ -5,8 +5,9 @@ use evdev::KeyCode;
 use crate::config;
 use crate::input::evdev::KeyEventState;
 
-#[derive(Debug)]
+#[derive(Debug, Default)]
 pub enum State {
+    #[default]
     Idle,
     Tracking {
         tracking_key: KeyCode,
